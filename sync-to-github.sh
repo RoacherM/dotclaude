@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sync script for dotclaude repository
-# Syncs agents folder and CLAUDE.md to https://github.com/FradSer/dotclaude
+# Syncs agents folder and CLAUDE.md to https://github.com/RoacherM/dotclaude
 
 set -e
 
@@ -10,8 +10,8 @@ set -e
 #===============================================================================
 
 # Repository configuration
-readonly REPO_URL="git@github.com:FradSer/dotclaude.git"
-readonly REPO_URL_HTTPS="https://github.com/FradSer/dotclaude.git"
+readonly REPO_URL="git@github.com:RoacherM/dotclaude.git"
+readonly REPO_URL_HTTPS="https://github.com/RoacherM/dotclaude.git"
 readonly TEMP_DIR="/tmp/dotclaude-sync"
 readonly BRANCH="main"
 readonly CLAUDE_DIR="$HOME/.claude"
@@ -116,7 +116,7 @@ Options:
 
 Examples:
   ./sync-to-github.sh --yes --prefer repo --commit --push
-  bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-to-github.sh) --yes --prefer local
+  bash <(curl -fsSL https://raw.githubusercontent.com/RoacherM/dotclaude/main/sync-to-github.sh) --yes --prefer local
 EOF
 }
 

@@ -12,7 +12,7 @@ Claude Code 的高级多智能体配置系统，提供专业智能体和命令�
 
 ### 1. 同步配置
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-to-github.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/RoacherM/dotclaude/main/sync-to-github.sh)
 ```
 
 ### 2. 基础智能体使用

@@ -12,7 +12,7 @@ New to the multi-agent system? Start here:
 
 ### 1. Sync Configuration
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-to-github.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/RoacherM/dotclaude/main/sync-to-github.sh)
 ```
 
 ### 2. Basic Agent Usage
