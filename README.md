@@ -189,12 +189,11 @@ GitHub with `gh` CLI creates seamless integration between Claude Code and projec
 - Atomic commits per logical change; Conventional style (≤50 chars)
 
 ### Cross-Session Tracking
-- Keep `.claude/` in sync with reality:
-  - `changelog.md`: after each meaningful change
-  - `current_focus.json`: when WIP/next/known issues change
-  - `project_overview.md`: only when architecture changes
-- Start: `@python-lead` loads/bootstraps context
-- End: ensure `.claude/` consistent; list next 1–3 tasks with file paths
+- Keep `.claude/` focused on essential context:
+  - `session_state.json`: current tasks, active work, next steps
+  - `project_context.md`: only when architecture/components change
+- Start: `@python-lead` loads context (project_context.md + session_state.json)
+- End: update session_state.json with current progress and next tasks
 
 ### Python Tooling
 - Use `uv` for env and packages:

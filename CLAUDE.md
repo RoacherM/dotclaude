@@ -18,13 +18,15 @@
 - Atomic commits per logical change
 
 ## Cross-Session Tracking
-- Keep `.claude/` in sync with reality
-- Update:
-  - `changelog.md`: after each meaningful change
-  - `current_focus.json`: when WIP/next/known issues change
-  - `project_overview.md`: only when architecture changes
-- Start: `@python-lead` loads/bootstraps context
-- End: ensure `.claude/` consistent; list next 1–3 tasks with file paths
+- Keep `.claude/` focused on essential context
+- **Update Triggers**:
+  - `session_state.json`: after completing logical feature units (not every file change)
+  - `project_context.md`: only when architecture/components change
+  - Sync TodoWrite status to `session_state.json` for persistent task tracking
+- **Session Flow**:
+  - Start: `@python-lead` loads context (project_context.md + session_state.json)
+  - During: Use TodoWrite for session task management
+  - End: consolidate TodoWrite status into session_state.json for cross-session continuity
 
 ## Python Tooling Preferences
 - Use `uv` for env and packages

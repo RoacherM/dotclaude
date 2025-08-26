@@ -4,8 +4,8 @@ Kick off each session with complete, actionable context and Python-first workflo
 
 ## Step 1: Smart Bootstrap
 - [ ] **@python-lead** — Load `.claude/` context if present; otherwise bootstrap
-- [ ] If new project: Scan repository to generate `.claude/{project_overview.md,changelog.md,current_focus.json}`
-- [ ] Validate `current_focus.json.last_updated` freshness; if stale, refresh context
+- [ ] If new project: Scan repository to generate `.claude/{project_context.md,session_state.json}`
+- [ ] Validate `session_state.json.timestamp` freshness; if stale, refresh context
 
 ## Step 2: Environment Verification (Python)
 - [ ] Check Python tooling: `uv --version` | optional: `ruff --version`, `pytest --version` | `mypy --version`
@@ -13,16 +13,15 @@ Kick off each session with complete, actionable context and Python-first workflo
 - [ ] Git status: clean or intentional changes understood
 
 ## Step 3: Work Planning
-- [ ] Read `current_focus.json` → `next_session_tasks`
+- [ ] Read `session_state.json` → `next_steps`
 - [ ] Prioritize 1-2 tasks; specify exact file paths to touch
 - [ ] Start with the smallest viable change
 
 ## Python Project Bootstrap Details
 - python-lead scanning hints: FastAPI (`FastAPI(`, `APIRouter`), agents (`anthropic`, `openai`, `langchain`), workflows (`prefect`, `celery`, `temporal`), data (`sqlalchemy`, `alembic`), quality (`pytest`, `ruff`, `mypy`, `bandit`).
 - Output should create:
-  - `.claude/project_overview.md` — identity, architecture, components, operations
-  - `.claude/changelog.md` — initialize with bootstrap entry
-  - `.claude/current_focus.json` — minimal WIP and next steps
+  - `.claude/project_context.md` — identity, architecture, components, operations
+  - `.claude/session_state.json` — current tasks, active work, next steps
 
 ## Integration with Other Commands
 - Use `/review/hierarchical` after major changes
