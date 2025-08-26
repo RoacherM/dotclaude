@@ -96,20 +96,22 @@ exit 0
 2. **Red** - Add failing test that reproduces issue (don't modify existing tests)
 3. **Green** - Implement minimal fix to make test pass
 4. **Review** - Use specialized agents:
-   - **@code-reviewer** - Comprehensive code review before integration
+   - **@python-reviewer** - Unified Python review before integration
    - **@security-reviewer** - For auth/sensitive/external-input code  
-   - **@ux-reviewer** - For UI/UX-impacting changes
+   
 5. **Refactor** - **@code-simplifier** to improve code while keeping tests green
 6. **Commit** - Atomic commits following Conventional Commits
+7. **@project-state-manager** - Document feature implementation and update project state
 
 ## PR Creation
 
 Quality checks before pushing:
 ```bash
 # Run quality checks (adapt commands to project)
-pnpm lint
-pnpm test  
-pnpm build
+# Python projects:
+uv run ruff check && uv run mypy && uv run pytest && uv run bandit -r .
+# Node.js projects:
+pnpm lint && pnpm test && pnpm build
 
 # Push and create PR
 git push -u origin HEAD

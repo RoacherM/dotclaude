@@ -17,9 +17,11 @@ bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-
 
 ### 2. 基础智能体使用
 在任何 Claude Code 对话中：
-- `@agent-code-reviewer` - 审查代码问题
-- `@agent-security-reviewer` - 检查安全漏洞  
-- `@agent-ux-reviewer` - 评估用户界面设计
+- `@agent-python-orchestrator` - 会话引导、仓库扫描、`.claude/` 文档管理
+- `@agent-project-state-manager` - 维护三件套：`project_overview.md`、`changelog.md`、`current_focus.json`
+- `@agent-python-reviewer` - 统一 Python 审查（质量+安全+架构）
+- `@agent-security-reviewer` - 针对高风险代码的安全专审  
+- `@agent-tech-lead-reviewer` - 架构指导
 
 ### 3. `claude` 中的最佳实践工作流
 全面代码质量的三阶段协作流程：
@@ -71,11 +73,11 @@ bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-
 ```text
 dotclaude/
   - agents/
-    - code-reviewer.md
+    - python-orchestrator.md
+    - python-reviewer.md
     - code-simplifier.md
     - security-reviewer.md
     - tech-lead-reviewer.md
-    - ux-reviewer.md
   - commands/
     - continue.md
     - fix/
@@ -106,11 +108,12 @@ dotclaude/
 
 | 智能体 | 目的 | 专注领域 |
 |-------|------|----------|
-| **agent-code-reviewer** | 全面代码审查 | 正确性、错误处理、可维护性、最佳实践 |
+| **agent-python-orchestrator** | 会话引导与文档管理 | 仓库扫描、`.claude/` 文档、Python 上下文 |
+| **agent-project-state-manager** | 跨会话项目追踪 | 架构概览、变更日志、当前焦点 |
+| **agent-python-reviewer** | 统一 Python 审查 | 质量、安全、架构 |
 | **agent-code-simplifier** | 重构和优化 | 可读性、复杂度降低、DRY 原则 |
 | **agent-security-reviewer** | 安全审计和加固 | 身份验证/授权、输入验证、依赖扫描 |
 | **agent-tech-lead-reviewer** | 架构指导 | 系统设计、技术方向、风险评估 |
-| **agent-ux-reviewer** | 用户体验评估 | 可用性启发式、无障碍标准、UI 一致性 |
 
 ## 命令模板
 
@@ -123,7 +126,6 @@ dotclaude/
 ### 修复操作
 - **`/fix/code-quality`** - 代码质量改进（命名、复杂度、性能）
 - **`/fix/security`** - 安全漏洞识别和修复
-- **`/fix/ui`** - UI/UX 一致性和可用性增强
 
 ### Git 操作
 - **`/git/commit.md`** - 结构化提交工作流
@@ -136,6 +138,7 @@ dotclaude/
 - **`/gh/resolve-issues`** - 智能问题解决，包含分支检测、AI 生成名称和 worktree 继续功能
 
 ### 开发工具
+- **`/session-init`** - Python 专注的会话初始化与仓库扫描
 - **`/continue`** - 恢复中断的工作会话
 - **`/refactor`** - 系统化代码重构检查清单
 
@@ -143,10 +146,9 @@ dotclaude/
 
 ### 智能体调用
 ```
-@agent-code-reviewer     # 全面代码分析
+@agent-python-reviewer   # 统一 Python 审查
 @agent-security-reviewer # 安全专注审计  
 @agent-tech-lead-reviewer # 架构指导
-@agent-ux-reviewer       # 用户体验评估
 @agent-code-simplifier   # 重构辅助
 ```
 
@@ -158,7 +160,7 @@ dotclaude/
 ### 多智能体协作
 ```bash
 # 示例：全面审查流水线
-@agent-code-reviewer → @agent-security-reviewer → @agent-tech-lead-reviewer
+@agent-python-reviewer → @agent-security-reviewer → @agent-tech-lead-reviewer
 ```
 
 ### 协作理念
@@ -180,23 +182,43 @@ GitHub 与 `gh` CLI 创建了 Claude Code 和项目管理之间的无缝集成�
 
 ## 高级用法
 
-参见 `CLAUDE.md` 了解完整的开发指南。要点：
+参见 `CLAUDE.md` 了解完整的开发指南。下为“Python-first，极简”要点：
 
-**架构**
-- 遵循 SOLID 原则；优先使用组合而不是继承
-- 使用依赖注入提高可测试性
-- 数据访问使用仓库模式，算法变化使用策略模式
+### 交互式开发
+- 小步确认，避免一把梭
+- 修改前先理解结构；不确定先搜索
+- 跨会话上下文由 `.claude/` 维护
 
-**代码质量**
-- 语义命名；避免魔法数字；保持函数简小
-- 用有意义的消息覆盖错误场景
-- 注释"为什么"而不是"什么"
+### 架构原则
+- 优先组合，遵循 SOLID；依赖注入以增强可测性
+- 适当使用 repository/strategy 等模式
 
-**开发标准**
-- 不确定时先搜索；为核心功能编写测试
-- 代码更改时更新文档；Node.js 项目优先使用 `pnpm`
-- 提交消息：仅英文，Conventional 风格（≤50 字符）
-- 原子提交；无表情符号；PR 使用合并提交
+### 代码质量
+- 语义化命名；避免魔法数字；函数尽量短小
+- 错误信息有意义；注释“为什么”而非“做什么”
+
+### 工作流
+- 核心逻辑尽量 TDD；代码与文档同步更新
+- 原子提交；Conventional 风格（≤50 字）
+
+### 跨会话追踪
+- `.claude/` 与事实保持一致：
+  - `changelog.md`：每次有意义的变更后更新
+  - `current_focus.json`：WIP/Next/Issues 变化时更新
+  - `project_overview.md`：仅架构变化时更新
+- 会话开始：`@python-orchestrator` 负责加载/初始化上下文
+- 会话结束：确保 `.claude/` 一致；写下 1–3 个下步任务（含文件路径）
+
+### Python 工具偏好
+- 使用 `uv` 管理环境与依赖：
+  - `uv venv` 项目根目录
+  - `uv add <package>` 安装依赖
+  - `uv run <command>` 运行脚本/测试/工具
+- 入口尽量位于仓库根；合并提交；避免表情与硬编码密钥
+
+### 需求协议
+- 不要急着写代码：clarify → analyze → propose → discuss → decide
+- 在得到批准后再实现
 
 ## 常见问题
 

@@ -4,7 +4,7 @@
 
 **English | [中文](README-zh.md)**
 
-A sophisticated multi-agent configuration system for Claude Code that provides specialized agents and command templates to accelerate code review, refactoring, security audits, tech-lead-guidance, and UX evaluations.
+A Python-first multi-agent configuration for Claude Code. It unifies session bootstrap, project-wide context loading, and continuous progress tracking while focusing on Python development: FastAPI services, LLM agents, and workflow systems.
 
 ## Quick Start
 
@@ -17,9 +17,11 @@ bash <(curl -fsSL https://raw.githubusercontent.com/FradSer/dotclaude/main/sync-
 
 ### 2. Basic Agent Usage
 In any Claude Code conversation:
-- `@agent-code-reviewer` - Review your code for issues
-- `@agent-security-reviewer` - Check for security vulnerabilities  
-- `@agent-ux-reviewer` - Evaluate user interface designs
+- `@agent-python-orchestrator` - Session bootstrap, repository scan, `.claude/` docs management
+- `@agent-project-state-manager` - Maintain 3-file state: `project_overview.md`, `changelog.md`, `current_focus.json`
+- `@agent-python-reviewer` - Unified Python review (quality + security + architecture)
+- `@agent-security-reviewer` - Python security audit
+- `@agent-tech-lead-reviewer` - Architectural guidance
 
 ### 3. Best Practice Workflow in `claude`
 Three-stage collaborative process for comprehensive code quality:
@@ -39,9 +41,10 @@ Each step requires engineer validation to ensure Claude's output aligns with pro
 
 ### 4. Essential Commands
 Open these templates as checklists in Claude Code:
-- **Quick review**: `commands/review/quick.md`
-- **Fix issues**: `commands/fix/code-quality.md`
-- **Commit changes**: `commands/git/commit-and-push.md`
+- **Session init**: `commands/session-init.md` — Python-focused bootstrap and repo scan for new projects
+- **Quick review**: `commands/review/quick.md` - Python-focused code review
+- **Fix issues**: `commands/fix/code-quality.md` - Python code quality improvements  
+- **Commit changes**: `commands/git/commit-and-push.md` - Git workflow with uv environment support
 
 ### 5. Next Steps
 - Browse [Specialized Agents](#specialized-agents) for all available experts
@@ -75,13 +78,12 @@ dotclaude/
     - code-simplifier.md
     - security-reviewer.md
     - tech-lead-reviewer.md
-    - ux-reviewer.md
+    - python-orchestrator.md
   - commands/
     - continue.md
     - fix/
       - code-quality.md
       - security.md
-      - ui.md
     - gh/
       - create-issues.md
       - resolve-issues.md
@@ -101,15 +103,16 @@ dotclaude/
 
 ## Specialized Agents
 
-Each agent provides domain-specific expertise for comprehensive code analysis:
+Each agent provides domain-specific expertise for Python/LLM agent development:
 
 | Agent | Purpose | Focus Areas |
 |-------|---------|-------------|
-| **agent-code-reviewer** | Comprehensive code review | Correctness, error handling, maintainability, best practices |
-| **agent-code-simplifier** | Refactoring & optimization | Readability, complexity reduction, DRY principles |
-| **agent-security-reviewer** | Security audit & hardening | AuthN/AuthZ, input validation, dependency scanning |
-| **agent-tech-lead-reviewer** | Architectural guidance | System design, technical direction, risk assessment |
-| **agent-ux-reviewer** | User experience evaluation | Usability heuristics, accessibility standards, UI consistency |
+| **agent-python-orchestrator** | Session bootstrap & docs | Repo scan, `.claude/` docs, Python-first context |
+| **agent-code-reviewer** | Python code review | Correctness, error handling, maintainability, Python best practices |
+| **agent-code-simplifier** | Python refactoring & optimization | Readability, complexity reduction, DRY principles, Pythonic patterns |
+| **agent-security-reviewer** | Python security audit | Input validation, dependency scanning, secret management, Python-specific vulnerabilities |
+| **agent-tech-lead-reviewer** | Python architectural guidance | System design, technical direction, risk assessment, scalability |
+| **agent-project-state-manager** | Cross-session project tracking | Deep project analysis, comprehensive documentation, state continuity |
 
 ## Command Templates
 
@@ -120,9 +123,8 @@ Structured workflows for common development tasks:
 - **`/review/hierarchical`** - Multi-layered parallel reviews with consolidated output
 
 ### Fix Operations
-- **`/fix/code-quality`** - Code quality improvements (naming, complexity, performance)
-- **`/fix/security`** - Security vulnerability identification and remediation
-- **`/fix/ui`** - UI/UX consistency and usability enhancements
+- **`/fix/code-quality`** - Python code quality improvements (naming, complexity, performance)
+- **`/fix/security`** - Python security vulnerability identification and remediation
 
 ### Git Operations
 - **`/git/commit.md`** - Structured commit workflow
@@ -135,8 +137,9 @@ Structured workflows for common development tasks:
 - **`/gh/resolve-issues`** - Smart issue resolution with branch detection, AI-generated names, and worktree continuation
 
 ### Development Utilities
+- **`/session-init`** - Initialize sessions with complete project state awareness
 - **`/continue`** - Resume interrupted work sessions
-- **`/refactor`** - Systematic code refactoring checklist
+- **`/refactor`** - Systematic Python code refactoring checklist
 
 ## Usage Patterns
 
@@ -148,7 +151,7 @@ Structured workflows for common development tasks:
 ### Multi-Agent Collaboration
 ```bash
 # Example: Comprehensive review pipeline
-@agent-code-reviewer → @agent-security-reviewer → @agent-tech-lead-reviewer
+@agent-python-reviewer → @agent-security-reviewer → @agent-tech-lead-reviewer
 ```
 
 ### Collaboration Philosophy
@@ -168,25 +171,43 @@ GitHub with `gh` CLI creates seamless integration between Claude Code and projec
 
 ---
 
-## Advanced Usage
+## Development Guidelines (Python-first, minimal)
 
-See `CLAUDE.md` for full development guidelines. Key points:
+### Interactive Development
+- Confirm in small steps; avoid one-shot changes
+- Understand project structure before edits; search first when unsure
+- Maintain cross-session context via `.claude/`
 
-**Architecture**
-- Follow SOLID principles; prefer composition over inheritance
-- Use dependency injection for testability
-- Repository pattern for data access, Strategy pattern for algorithmic variations
+### Architecture Principles
+- Prefer composition; follow SOLID; inject dependencies for testability
+- Use repository/strategy patterns when appropriate
 
-**Code Quality**
-- Semantic naming; avoid magic numbers; keep functions small
-- Cover error scenarios with meaningful messages
-- Comment on "why" rather than "what"
+### Code Quality
+- Descriptive names; avoid magic numbers; keep functions small
+- Handle errors with meaningful messages; comment "why", not "what"
 
-**Development Standards**
-- Search first when unsure; write tests for core functionality
-- Update docs with code changes; prefer `pnpm` for Node.js projects
-- Commit messages: English only, Conventional style (≤50 chars)
-- Atomic commits; no emojis; PRs use merge commits
+### Workflow
+- TDD for core logic; update docs alongside code
+- Atomic commits per logical change; Conventional style (≤50 chars)
+
+### Cross-Session Tracking
+- Keep `.claude/` in sync with reality:
+  - `changelog.md`: after each meaningful change
+  - `current_focus.json`: when WIP/next/known issues change
+  - `project_overview.md`: only when architecture changes
+- Start: `@python-orchestrator` loads/bootstraps context
+- End: ensure `.claude/` consistent; list next 1–3 tasks with file paths
+
+### Python Tooling
+- Use `uv` for env and packages:
+  - `uv venv` at project root
+  - `uv add <package>` for deps
+  - `uv run <command>` to run scripts/tests/tools
+- Entry point at repo root; merge commits; avoid emojis and hardcoded secrets
+
+### Requirements Protocol
+- Don’t rush to code; follow: clarify → analyze → propose → discuss → decide
+- Wait for approval before implementing
 
 ## FAQ
 

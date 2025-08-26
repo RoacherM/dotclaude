@@ -6,9 +6,8 @@ Multi-stage comprehensive review using multiple subagents: strategic assessment,
 
 **Stage 2**: Parallel reviews using applicable subagents:
 
-* @code-reviewer: business logic, error handling, test coverage
+* @python-reviewer: business logic, error handling, test coverage (quality + security + architecture)
 * @security-reviewer: authentication, data protection, input validation, dependencies
-* @ux-reviewer (if applicable): usability, accessibility, consistency
 
 **Stage 3**: Use @code-simplifier to think hard and consolidate all findings into prioritized improvement roadmap, resolving conflicts and integrating recommendations.
 
