@@ -3,7 +3,7 @@
 Kick off each session with complete, actionable context and Python-first workflows.
 
 ## Step 1: Smart Bootstrap
-- [ ] **@python-orchestrator** — Load `.claude/` context if present; otherwise bootstrap
+- [ ] **@python-lead** — Load `.claude/` context if present; otherwise bootstrap
 - [ ] If new project: Scan repository to generate `.claude/{project_overview.md,changelog.md,current_focus.json}`
 - [ ] Validate `current_focus.json.last_updated` freshness; if stale, refresh context
 
@@ -18,7 +18,7 @@ Kick off each session with complete, actionable context and Python-first workflo
 - [ ] Start with the smallest viable change
 
 ## Python Project Bootstrap Details
-- Orchestrator scanning hints: FastAPI (`FastAPI(`, `APIRouter`), agents (`anthropic`, `openai`, `langchain`), workflows (`prefect`, `celery`, `temporal`), data (`sqlalchemy`, `alembic`), quality (`pytest`, `ruff`, `mypy`, `bandit`).
+- python-lead scanning hints: FastAPI (`FastAPI(`, `APIRouter`), agents (`anthropic`, `openai`, `langchain`), workflows (`prefect`, `celery`, `temporal`), data (`sqlalchemy`, `alembic`), quality (`pytest`, `ruff`, `mypy`, `bandit`).
 - Output should create:
   - `.claude/project_overview.md` — identity, architecture, components, operations
   - `.claude/changelog.md` — initialize with bootstrap entry

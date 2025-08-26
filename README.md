@@ -17,11 +17,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/RoacherM/dotclaude/main/sync
 
 ### 2. Basic Agent Usage
 In any Claude Code conversation:
-- `@agent-python-orchestrator` - Session bootstrap, repository scan, `.claude/` docs management
-- `@agent-project-state-manager` - Maintain 3-file state: `project_overview.md`, `changelog.md`, `current_focus.json`
-- `@agent-python-reviewer` - Unified Python review (quality + security + architecture)
-- `@agent-security-reviewer` - Python security audit
-- `@agent-tech-lead-reviewer` - Architectural guidance
+- `@python-lead` - Session bootstrap, architectural guidance, technical planning
+- `@python-implementer` - Code implementation, refactoring, performance optimization
+- `@python-quality` - Comprehensive review (quality + security + testing)
 
 ### 3. Best Practice Workflow in `claude`
 Three-stage collaborative process for comprehensive code quality:
@@ -74,11 +72,9 @@ Open these templates as checklists in Claude Code:
 ```text
 dotclaude/
   - agents/
-    - code-reviewer.md
-    - code-simplifier.md
-    - security-reviewer.md
-    - tech-lead-reviewer.md
-    - python-orchestrator.md
+    - python-lead.md
+    - python-implementer.md
+    - python-quality.md
   - commands/
     - continue.md
     - fix/
@@ -101,18 +97,20 @@ dotclaude/
   - sync-to-github.sh
 ```
 
-## Specialized Agents
+## Agent Architecture (3-Agent System)
 
-Each agent provides domain-specific expertise for Python/LLM agent development:
+Simplified, non-overlapping agents based on development stages:
 
-| Agent | Purpose | Focus Areas |
-|-------|---------|-------------|
-| **agent-python-orchestrator** | Session bootstrap & docs | Repo scan, `.claude/` docs, Python-first context |
-| **agent-code-reviewer** | Python code review | Correctness, error handling, maintainability, Python best practices |
-| **agent-code-simplifier** | Python refactoring & optimization | Readability, complexity reduction, DRY principles, Pythonic patterns |
-| **agent-security-reviewer** | Python security audit | Input validation, dependency scanning, secret management, Python-specific vulnerabilities |
-| **agent-tech-lead-reviewer** | Python architectural guidance | System design, technical direction, risk assessment, scalability |
-| **agent-project-state-manager** | Cross-session project tracking | Deep project analysis, comprehensive documentation, state continuity |
+| Agent | Stage | Responsibilities |
+|-------|-------|------------------|
+| **python-lead** | Planning | Session bootstrap, architecture design, technical strategy, cross-session state management |
+| **python-implementer** | Implementation | Code development, refactoring, performance optimization, modern Python patterns |
+| **python-quality** | Quality Assurance | Code review, security analysis, testing strategy, optimization recommendations |
+
+**Design Principles:**
+- ✅ **Zero Overlap** - Each agent handles one development stage
+- ✅ **Complete Coverage** - Planning → Implementation → Quality
+- ✅ **Clear Handoffs** - Lead defines "what", Implementer builds "how", Quality validates "correctness"
 
 ## Command Templates
 
@@ -150,8 +148,8 @@ Structured workflows for common development tasks:
 
 ### Multi-Agent Collaboration
 ```bash
-# Example: Comprehensive review pipeline
-@agent-python-reviewer → @agent-security-reviewer → @agent-tech-lead-reviewer
+# Example: Development pipeline
+@python-lead → @python-implementer → @python-quality
 ```
 
 ### Collaboration Philosophy
@@ -195,7 +193,7 @@ GitHub with `gh` CLI creates seamless integration between Claude Code and projec
   - `changelog.md`: after each meaningful change
   - `current_focus.json`: when WIP/next/known issues change
   - `project_overview.md`: only when architecture changes
-- Start: `@python-orchestrator` loads/bootstraps context
+- Start: `@python-lead` loads/bootstraps context
 - End: ensure `.claude/` consistent; list next 1–3 tasks with file paths
 
 ### Python Tooling

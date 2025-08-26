@@ -12,7 +12,7 @@ Resolve issues using isolated worktrees, TDD approach, and protected PR workflow
 
 1. **Select issue** - View all open issues by priority and choose next one to resolve
 2. **Create worktree** - Set up isolated workspace with feature branch 
-3. **TDD implementation** - Plan with @tech-lead-reviewer, red-green-refactor cycle, review with agents, commit changes
+3. **TDD implementation** - Plan with @python-lead, red-green-refactor cycle, review with agents, commit changes
 4. **PR creation** - Run quality checks, push branch, open PR with auto-closing keywords
 5. **Cleanup** - Remove worktree after merge
 
@@ -92,16 +92,15 @@ exit 0
 
 ## TDD Implementation
 
-1. **@tech-lead-reviewer** - Analyze issue scope and implementation strategy
+1. **@python-lead** - Analyze issue scope and implementation strategy
 2. **Red** - Add failing test that reproduces issue (don't modify existing tests)
 3. **Green** - Implement minimal fix to make test pass
 4. **Review** - Use specialized agents:
-   - **@python-reviewer** - Unified Python review before integration
-   - **@security-reviewer** - For auth/sensitive/external-input code  
+   - **@python-quality** - Unified Python review before integration  
    
-5. **Refactor** - **@code-simplifier** to improve code while keeping tests green
+5. **Refactor** - **@python-implementer** to improve code while keeping tests green
 6. **Commit** - Atomic commits following Conventional Commits
-7. **@project-state-manager** - Document feature implementation and update project state
+7. **@python-lead** - Document feature implementation and update project state
 
 ## PR Creation
 

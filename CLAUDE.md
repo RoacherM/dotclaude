@@ -23,7 +23,7 @@
   - `changelog.md`: after each meaningful change
   - `current_focus.json`: when WIP/next/known issues change
   - `project_overview.md`: only when architecture changes
-- Start: `@python-orchestrator` loads/bootstraps context
+- Start: `@python-lead` loads/bootstraps context
 - End: ensure `.claude/` consistent; list next 1–3 tasks with file paths
 
 ## Python Tooling Preferences
